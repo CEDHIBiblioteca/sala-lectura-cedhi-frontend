@@ -9,7 +9,7 @@ export default function AuthGuard({ children }) {
   }
 
   if (!isLoggedIn) {
-    window.location.href = 'https://biblioteca.cedhinuevaarequipa.edu.pe';
+    window.location.href = 'http://localhost/BibliotecaCEDHI';
     return null;
   }
 

@@ -12,7 +12,7 @@ export default function TokenHandler() {
     const token = params.get('token');
 
     if (!token) {
-      window.location.href = 'https://biblioteca.cedhinuevaarequipa.edu.pe';
+      window.location.href = 'http://localhost/BibliotecaCEDHI';
       return;
     }
 
@@ -28,11 +28,11 @@ export default function TokenHandler() {
 
           navigate('/dashboard', { replace: true });
         } else {
-          window.location.href = 'https://biblioteca.cedhinuevaarequipa.edu.pe';
+          window.location.href = 'http://localhost/BibliotecaCEDHI';
         }
       })
       .catch(() => {
-        window.location.href = 'https://biblioteca.cedhinuevaarequipa.edu.pe';
+        window.location.href = 'http://localhost/BibliotecaCEDHI';
       });
 
 
