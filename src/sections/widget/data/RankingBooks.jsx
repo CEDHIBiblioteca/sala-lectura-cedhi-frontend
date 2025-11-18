@@ -178,7 +178,6 @@ export default function RankingBooks() {
                 alt="Avatar 1"
                 size="lg"
                 variant="rounded"
-
               >
                 {row.original.titulo?.charAt(0) || ''}
               </Avatar>

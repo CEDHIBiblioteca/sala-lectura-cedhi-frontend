@@ -431,18 +431,25 @@ export default function List() {
   return (
     <>
       <Breadcrumbs custom heading="Lista de Prestamos" links={breadcrumbLinks} />
-      <Grid container direction={matchDownSM ? 'column' : 'row'} spacing={2} sx={{ pb: 2 }}>
-        <Grid item xs={12}>
-          {loansLoading ? <EmptyReactTable /> : <ReactTable {...{
-            data: list, columns, modalToggler: () => {
-              seLoanReturnModal(true);
-              setLoanReturn(null);
-            }
-          }} />}
-          <AlertLoanDelete id={Number(loanDeleteId)} open={open} handleClose={handleClose} />
-          <LoanReturnModal open={loanReturnModal} modalToggler={seLoanReturnModal} loanReturn={selectedLoanReturn} />
-        </Grid>
-      </Grid>
+      <Stack spacing={2} pb={2}>
+        {loansLoading ? (
+          <EmptyReactTable />
+        ) : (
+          <ReactTable
+            {...{
+              data: list,
+              columns,
+              modalToggler: () => {
+                seLoanReturnModal(true);
+                setLoanReturn(null);
+              }
+            }}
+          />
+        )}
+
+        <AlertLoanDelete id={Number(loanDeleteId)} open={open} handleClose={handleClose} />
+        <LoanReturnModal open={loanReturnModal} modalToggler={seLoanReturnModal} loanReturn={selectedLoanReturn} />
+      </Stack>
     </>
   );
 }

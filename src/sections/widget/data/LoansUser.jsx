@@ -190,15 +190,16 @@ export default function LoansUser() {
 
                 cell: ({ row }) => {
                     const dias = row.original.dias_restantes;
+                    const plural = Math.abs(dias) == 1 ? 'día' : 'días';
 
                     if (dias > 3) {
-                        return <Chip color="success" label={`${dias} días restantes`} size="small" variant="light" />;
+                        return <Chip color="success" label={`${dias} ${plural} ${dias == 1 ? 'restante' : 'restantes'}`} size="small" variant="light" />;
                     } else if (dias > 0) {
-                        return <Chip color="warning" label={`${dias} días restantes`} size="small" variant="light" />;
+                        return <Chip color="warning" label={`${dias} ${plural} ${dias == 1 ? 'restante' : 'restantes'}`} size="small" variant="light" />;
                     } else if (dias === 0) {
                         return <Chip color="error" label="Vence hoy" size="small" variant="light" />;
                     } else {
-                        return <Chip color="error" label={`Atrasado ${Math.abs(dias)} días`} size="small" variant="light" />;
+                        return <Chip color="error" label={`Atrasado ${Math.abs(dias)} ${plural}`} size="small" variant="light" />;
                     }
                 }
             }
