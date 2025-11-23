@@ -24,6 +24,7 @@ const JWTContext = createContext(null);
 
 export const JWTProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
+  const REDIRECT_URL = import.meta.env.VITE_BASE_REDIRECT_URL;
   useEffect(() => {
     const init = async () => {
       const token = localStorage.getItem('serviceToken');
@@ -91,7 +92,7 @@ export const JWTProvider = ({ children }) => {
   };
 
   const returnDasboard = () => {
-    window.location.href = "http://localhost/BibliotecaCEDHI";
+    window.location.href = REDIRECT_URL;
     setSession(null);
     dispatch({ type: LOGOUT });
     localStorage.clear();

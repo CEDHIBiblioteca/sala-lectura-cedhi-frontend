@@ -92,6 +92,8 @@ export default function Books() {
   // search
   useEffect(() => {
     setBookLoading(true);
+    setPage(1);
+    _DATA.jump(1);
     if (lists && lists.length > 0) {
       const newData = lists.filter((value) => {
         if (globalFilter) {

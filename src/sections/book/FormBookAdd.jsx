@@ -51,16 +51,21 @@ export default function FormBookAdd({ book, closeModal }) {
     titulo: Yup.string().max(255).required('El título es obligatorio'),
     autor: Yup.string().max(255).required('El autor es obligatorio'),
     codigo_dewey: Yup.number(),
-    notacion_interna: Yup.string().max(255).required('La notación interna es obligatorio'),
+    // notacion_interna: Yup.string().max(255).required('La notación interna es obligatorio'),
+    notacion_interna: Yup.string().max(255),
+    registro: Yup.number().required('El registro es obligatorio'),
     codigo: Yup.string().max(255).required('El código es obligatorio'),
     isbn: Yup.string().max(255),
     editorial: Yup.string().max(255).required('El editorial es obligatorio'),
     tema: Yup.string().max(255).required('El tema es obligatorio'),
-    idioma: Yup.string().max(255).required('El idioma es obligatorio'),
+    // idioma: Yup.string().max(255).required('El idioma es obligatorio'),
+    idioma: Yup.string().max(255),
     tipo_material: Yup.string().max(255).required('El tipo de material es obligatorio'),
-    num_paginas: Yup.number().required('El núm. de páginas es obligatorio').min(1, 'Debe ser mayor o igual a 1 página'),
-    num_edicion: Yup.string().max(255).required('El núm de edición es obligatorio'),
-    ciudad: Yup.string().max(255).required('La ciudad es obligatorio'),
+    num_paginas: Yup.number().required('El núm. de páginas es obligatorio').min(1, 'Debe ser mayor o igual a 1 página').typeError("El núm. de páginas debe ser un número válido"),
+    // num_edicion: Yup.string().max(255).required('El núm de edición es obligatorio'),
+    // ciudad: Yup.string().max(255).required('La ciudad es obligatorio'),
+    num_edicion: Yup.string().max(255),
+    ciudad: Yup.string().max(255),
     ano: Yup.number().required('El año de publicación es obligatorio'),
     tabla_contenido: Yup.string(),
     disponibilidad: Yup.boolean().required('La disponibilidad es obligatorio'),
@@ -200,11 +205,24 @@ export default function FormBookAdd({ book, closeModal }) {
                           id="book-table-contents"
                           name="tabla_contenido"
                           multiline
-                          rows={2}
+                          rows={3}
                           placeholder="Introduzca la tabla de contenido"
                           {...getFieldProps('tabla_contenido')}
                           error={Boolean(touched.tabla_contenido && errors.tabla_contenido)}
                           helperText={touched.tabla_contenido && errors.tabla_contenido}
+                        />
+                      </Stack>
+                    </Grid>
+                    <Grid item xs={12} sm={3}>
+                      <Stack spacing={1}>
+                        <InputLabel htmlFor="book-registro">Registro</InputLabel>
+                        <TextField
+                          fullWidth
+                          id="book-registro"
+                          placeholder="Introduzca el Registro"
+                          {...getFieldProps('registro')}
+                          error={Boolean(touched.registro && errors.registro)}
+                          helperText={touched.registro && errors.registro}
                         />
                       </Stack>
                     </Grid>
@@ -237,19 +255,6 @@ export default function FormBookAdd({ book, closeModal }) {
                     </Grid>
                     <Grid item xs={12} sm={3}>
                       <Stack spacing={1}>
-                        <InputLabel htmlFor="book-code">Código</InputLabel>
-                        <TextField
-                          fullWidth
-                          id="book-code"
-                          placeholder="Introduzca el código"
-                          {...getFieldProps('codigo')}
-                          error={Boolean(touched.codigo && errors.codigo)}
-                          helperText={touched.codigo && errors.codigo}
-                        />
-                      </Stack>
-                    </Grid>
-                    <Grid item xs={12} sm={3}>
-                      <Stack spacing={1}>
                         <InputLabel htmlFor="book-internalCode">Notación interno</InputLabel>
                         <TextField
                           fullWidth
@@ -258,6 +263,19 @@ export default function FormBookAdd({ book, closeModal }) {
                           {...getFieldProps('notacion_interna')}
                           error={Boolean(touched.notacion_interna && errors.notacion_interna)}
                           helperText={touched.notacion_interna && errors.notacion_interna}
+                        />
+                      </Stack>
+                    </Grid>
+                    <Grid item xs={12} sm={3}>
+                      <Stack spacing={1}>
+                        <InputLabel htmlFor="book-code">Código</InputLabel>
+                        <TextField
+                          fullWidth
+                          id="book-code"
+                          placeholder="Introduzca el código"
+                          {...getFieldProps('codigo')}
+                          error={Boolean(touched.codigo && errors.codigo)}
+                          helperText={touched.codigo && errors.codigo}
                         />
                       </Stack>
                     </Grid>
@@ -346,7 +364,7 @@ export default function FormBookAdd({ book, closeModal }) {
                         <TextField
                           fullWidth
                           id="book-city"
-                          placeholder="Introduzca el país"
+                          placeholder="Introduzca la ciudad"
                           {...getFieldProps('ciudad')}
                           error={Boolean(touched.ciudad && errors.ciudad)}
                           helperText={touched.ciudad && errors.ciudad}

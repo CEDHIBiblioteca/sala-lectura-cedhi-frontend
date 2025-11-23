@@ -6,13 +6,13 @@ import axios from '../utils/axios';
 export default function TokenHandler() {
   const navigate = useNavigate();
   const { loginFromToken } = useAuth();
-
+  const REDIRECT_URL = import.meta.env.VITE_BASE_REDIRECT_URL;
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const token = params.get('token');
 
     if (!token) {
-      window.location.href = 'http://localhost/BibliotecaCEDHI';
+      window.location.href = REDIRECT_URL;
       return;
     }
 
@@ -28,11 +28,11 @@ export default function TokenHandler() {
 
           navigate('/dashboard', { replace: true });
         } else {
-          window.location.href = 'http://localhost/BibliotecaCEDHI';
+          window.location.href = REDIRECT_URL;
         }
       })
       .catch(() => {
-        window.location.href = 'http://localhost/BibliotecaCEDHI';
+        window.location.href = REDIRECT_URL;
       });
 
 

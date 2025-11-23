@@ -24,6 +24,7 @@ import { Star1 } from 'iconsax-react';
 // project-imports
 import useAuth from '../../hooks/useAuth';
 import BookModal from './BookModal';
+import BookDetailModal from './BookDetailModal';
 import BookLoan from './BookLoanModal';
 import AlertBookDelete from './AlertBookDelete';
 import MainCard from '../../components/MainCard';
@@ -35,7 +36,7 @@ import { addFavoriteBook, removeFavoriteBook } from '../../api/books';
 
 // assets
 import defaultCoverBook2 from '../../assets/images/book-covers/book-cover-2.png';
-import { Book, Barcode, LanguageCircle, SliderHorizontal1 } from 'iconsax-react';
+import { Book, Barcode, LanguageCircle } from 'iconsax-react';
 
 const mediaSX = {
   width: 120,
@@ -52,7 +53,8 @@ export default function BookCard({ book, userFavorites }) {
   const [isFavorite, setIsFavorite] = useState(false);
   const [bookModal, setBookModal] = useState(false);
   const [selectedBook, setSelectedBook] = useState(null);
-
+  
+  const [detailModal, setDetailModal] = useState(false);
   const [bookLoanModal, setBookLoanModal] = useState(false);
   const [selectedBookLoan, setSelectedBookLoan] = useState(null);
 
@@ -111,8 +113,8 @@ export default function BookCard({ book, userFavorites }) {
                       <IconButton
                         edge="end"
                         aria-label="favorito"
-                        color={isFavorite ? "warning" : "default"} // amarillo si ya es favorito
-                        onClick={() => toggleFavorite(book.registro)} // tu función para agregar/quitar
+                        color={isFavorite ? "warning" : "default"}
+                        onClick={() => toggleFavorite(book.registro)}
                       >
                         <Star1 variant={isFavorite ? "Bold" : "Outline"} size={24} />
                       </IconButton>
@@ -137,6 +139,7 @@ export default function BookCard({ book, userFavorites }) {
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
+                  sx={{ pr: 6 }} 
                   primary={book.titulo ? <Typography variant="subtitle1">{book.titulo}</Typography> : <Typography variant="subtitle1" color="error">SIN DATO</Typography>}
                   secondary={book.autor ? <Typography color="text.secondary">{book.autor}</Typography> : <Typography color="error">SIN DATO</Typography>}
                 />
@@ -152,6 +155,14 @@ export default function BookCard({ book, userFavorites }) {
               anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
               transformOrigin={{ vertical: 'top', horizontal: 'right' }}
             >
+              <MenuItem 
+                onClick={() => {
+                  setSelectedBook(book); 
+                  setDetailModal(true);
+                }}
+              >
+                Ver detalle
+              </MenuItem>
               <MenuItem onClick={editBook}>Editar</MenuItem>
               <MenuItem onClick={handleAlertClose}>Eliminar</MenuItem>
             </Menu>
@@ -175,36 +186,40 @@ export default function BookCard({ book, userFavorites }) {
                     '& .MuiListItem-root': { px: 0, py: 0.2 },
                     '& .MuiListItemIcon-root': { minWidth: 28 }
                   }}
-                >
-                  <ListItem alignItems="flex-start">
-                    <ListItemIcon>
-                      <Book size={18} />
-                    </ListItemIcon>
-                    <ListItemText primary={book.registro ? <Typography color="text.secondary">{book.registro}</Typography> : <Typography color="error">SIN DATO</Typography>} />
-                  </ListItem>
-                  <ListItem alignItems="flex-start">
-                    <ListItemIcon>
-                      <Book size={18} />
-                    </ListItemIcon>
-                    <ListItemText primary={book.editorial ? <Typography color="text.secondary">{book.editorial}</Typography> : <Typography color="error">SIN DATO</Typography>} />
-                  </ListItem>
+                > 
                   <ListItem alignItems="flex-start">
                     <ListItemIcon>
                       <Barcode size={18} />
                     </ListItemIcon>
-                    <ListItemText primary={book.tema ? <Typography color="text.secondary">{book.tema}</Typography> : <Typography color="error">SIN DATO</Typography>} />
+                    <ListItemText primary={<Typography color="text.secondary">Registro:{' '}{book.registro ? (book.registro) : (<Typography component="span" color="error">SIN DATO</Typography>)}</Typography>}/>
+                  </ListItem>
+                  <ListItem alignItems="flex-start">
+                    <ListItemIcon>
+                      <Barcode size={18}/>
+                    </ListItemIcon>
+                    <ListItemText primary={<Typography color="text.secondary">Código Dewey:{' '}{book.codigo_dewey ? (book.codigo_dewey) : (<Typography component="span" color="error">SIN DATO</Typography>)}</Typography>}/>
+                  </ListItem>
+                  <ListItem alignItems="flex-start">
+                    <ListItemIcon>
+                      <Book size={18} />
+                    </ListItemIcon>
+                    <ListItemText primary={<Typography color="text.secondary">Editorial:{' '}{book.editorial ? (book.editorial) : (<Typography component="span" color="error">SIN DATO</Typography>)}</Typography>}/>
+                    {/* <ListItemText primary={book.editorial ? <Typography color="text.secondary">{book.editorial}</Typography> : <Typography color="error">SIN DATO</Typography>} /> */}
+                  </ListItem>
+                  <ListItem alignItems="flex-start">
+                    <ListItemIcon>
+                      <Book size={18} />
+                    </ListItemIcon>
+                    <ListItemText primary={<Typography color="text.secondary">Tema:{' '}{book.tema ? (book.tema) : (<Typography component="span" color="error">SIN DATO</Typography>)}</Typography>}/>
+                    {/* <ListItemText primary={book.tema ? <Typography color="text.secondary">{book.tema}</Typography> : <Typography color="error">SIN DATO</Typography>} /> */}
+                  
                   </ListItem>
                   <ListItem alignItems="flex-start">
                     <ListItemIcon>
                       <LanguageCircle size={18} />
                     </ListItemIcon>
-                    <ListItemText primary={book.idioma ? <Typography color="text.secondary">{book.idioma}</Typography> : <Typography color="error">SIN DATO</Typography>} />
-                  </ListItem>
-                  <ListItem alignItems="flex-start">
-                    <ListItemIcon>
-                      <SliderHorizontal1 size={18} />
-                    </ListItemIcon>
-                    <ListItemText primary={book.num_paginas ? <Typography color="text.secondary">{book.num_paginas} pág.</Typography> : <Typography color="error">SIN DATO</Typography>} />
+                    <ListItemText primary={<Typography color="text.secondary">Idioma:{' '}{book.idioma ? (book.idioma) : (<Typography component="span" color="error">SIN DATO</Typography>)}</Typography>}/>
+                    {/* <ListItemText primary={book.idioma ? <Typography color="text.secondary">{book.idioma}</Typography> : <Typography color="error">SIN DATO</Typography>} /> */}
                   </ListItem>
                 </List>
                 <Grid>
@@ -234,7 +249,7 @@ export default function BookCard({ book, userFavorites }) {
           <Typography variant="caption" color="text.secondary">
             Tipo de material: {book.tipo_material}
           </Typography>
-
+          
           {[1, 2, 3].includes(user?.categoria) && (
             book.disponibilidad ? (
               <Button variant="outlined" size="small" onClick={editBookLoan}>
@@ -252,6 +267,12 @@ export default function BookCard({ book, userFavorites }) {
       <BookLoan open={bookLoanModal} modalToggler={setBookLoanModal} bookLoan={selectedBookLoan} perfilesCedhi={userLists} />
       <AlertBookDelete registro={book.registro} titulo={book.titulo} open={openAlert} handleClose={handleAlertClose} />
       <BookModal open={bookModal} modalToggler={setBookModal} book={selectedBook} />
+      <BookDetailModal 
+        open={detailModal} 
+        onClose={() => setDetailModal(false)}
+        book={selectedBook}
+      />
+
     </>
   );
 }
