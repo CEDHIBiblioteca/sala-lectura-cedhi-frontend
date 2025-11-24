@@ -89,11 +89,14 @@ export default function Books() {
     setSortBy(event.target.value);
   };
 
+  useEffect(() => {
+    setPage(1);
+    _DATA.jump(1);
+  }, [userCard]);
+  
   // search
   useEffect(() => {
     setBookLoading(true);
-    setPage(1);
-    _DATA.jump(1);
     if (lists && lists.length > 0) {
       const newData = lists.filter((value) => {
         if (globalFilter) {

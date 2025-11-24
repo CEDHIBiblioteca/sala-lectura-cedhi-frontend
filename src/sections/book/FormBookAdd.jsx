@@ -404,7 +404,7 @@ export default function FormBookAdd({ book, closeModal }) {
                         <TextField
                           fullWidth
                           id="book-urlCover"
-                          placeholder="Introduzca el año de publicación"
+                          placeholder="Introduzca la URL de portada"
                           {...getFieldProps('url_cover')}
                           error={Boolean(touched.url_cover && errors.url_cover)}
                           helperText={touched.url_cover && errors.url_cover}

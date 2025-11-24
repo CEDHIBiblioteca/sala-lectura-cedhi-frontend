@@ -173,17 +173,8 @@ export default function RankingBooks() {
         accessorKey: 'titulo',
         cell: ({ row }) => {
           return (
-            <Stack direction="row" spacing={1.5} alignItems="center">
-              <Avatar
-                alt="Avatar 1"
-                size="lg"
-                variant="rounded"
-              >
-                {row.original.titulo?.charAt(0) || ''}
-              </Avatar>
-              <Stack spacing={0}>
-                <Typography variant="subtitle1">{row.original.titulo}</Typography>
-              </Stack>
+            <Stack spacing={0}>
+              <Typography variant="subtitle1">{row.original.titulo}</Typography>
             </Stack>
           );
         }

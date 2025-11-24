@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 // project import
 import MainCard from '../../components/MainCard';
 import { ThemeMode } from '../../config';
-import { openSnackbar } from '../../api/snackbar';
+import { useNavigate } from 'react-router-dom';
 
 //asset
 import WelcomeImage from '../../assets/images/analytics/3d-book-04.webp';
@@ -19,19 +19,10 @@ import cardBack from '../../assets/images/widget/img-dropbox-bg.svg';
 
 export default function WelcomeBanner() {
   const theme = useTheme();
-
-  const abrirMensaje = () => {
-    openSnackbar({
-      open: true,
-      message: 'Bienvenido a la Sala de Lectura CEDHI',
-      variant: 'alert',
-
-      alert: {
-        color: 'success'
-      }
-    });
+  const navigate = useNavigate();
+  const irABusqueda = () => {
+    navigate('/library/books');
   };
-
   return (
     <MainCard
       border={false}
@@ -52,19 +43,20 @@ export default function WelcomeBanner() {
       }}
     >
       <Grid container>
-        <Grid item md={6} sm={6} xs={12}>
-          <Stack spacing={2} sx={{ padding: 3 }}>
+        <Grid item md={8} sm={6} xs={12}>
+          <Stack spacing={2} sx={{ padding: 3, paddingRight: 4 }}>
             <Typography variant="h2" color={theme.palette.background.paper}>
               Sala de Lectura CEDHI
             </Typography>
             <Typography variant="h6" color={theme.palette.background.paper}>
-              La nueva interfaz de usuario con el poder de los componentes Material-UI.
+              Bienvenido a la Sala de Lectura del CEDHI. Busca entre cientos de libros disponibles y encuentra el título que necesitas.
+              Haz clic aquí para iniciar tu búsqueda.
             </Typography>
             <Box>
               <Button
                 variant="outlined"
                 color="secondary"
-                onClick={abrirMensaje}
+                onClick={irABusqueda}
                 sx={{
                   color: 'background.paper',
                   borderColor: theme.palette.background.paper,
@@ -73,12 +65,12 @@ export default function WelcomeBanner() {
                 }}
                 target="_blank"
               >
-                Más información
+                Buscar Libros
               </Button>
             </Box>
           </Stack>
         </Grid>
-        <Grid item sm={6} xs={12} sx={{ display: { xs: 'none', sm: 'initial' } }}>
+        <Grid item md={4} sm={5} xs={12} sx={{ display: { xs: 'none', sm: 'initial' } }}>
           <Stack sx={{ position: 'relative', pr: { sm: 3, md: 8 }, zIndex: 2 }} justifyContent="center" alignItems="flex-end">
             <img src={WelcomeImage} alt="Welcome" width="200px" />
           </Stack>

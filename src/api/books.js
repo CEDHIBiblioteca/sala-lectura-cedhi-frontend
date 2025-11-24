@@ -40,6 +40,33 @@ export function useGetBooks() {
   return memoizedValue;
 }
 
+// TRAE UN LIBRO POR REGISTRO 
+
+export function useBook(registro) {
+  const { data, isLoading, error, isValidating } = useSWR(
+    registro ? `${endpoints.key}/${registro}` : null,
+    fetcher,
+    {
+      revalidateIfStale: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false
+    }
+  );
+
+  const memoizedValue = useMemo(
+    () => ({
+      book: data?.libro,
+      bookLoading: isLoading,
+      bookError: error,
+      bookValidating: isValidating
+    }),
+    [data, error, isLoading, isValidating]
+  );
+
+  return memoizedValue;
+}
+
+
 // AGREGAR LIBRO
 
 export async function insertBook(newBook) {
@@ -89,7 +116,7 @@ export async function deleteBook(bookRegistro) {
 
 // TRAER LIBROS FAVORITOS DEL USUARIO
 export function useFavoriteBooks() {
-  const { data, isLoading, error, isValidating } = useSWR( URL + endpoints.key + endpoints.myFavorites,
+  const { data, isLoading, error, isValidating } = useSWR(URL + endpoints.key + endpoints.myFavorites,
     fetcher,
     {
       revalidateIfStale: false,

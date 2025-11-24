@@ -18,10 +18,9 @@ import Typography from '@mui/material/Typography';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
-import { Star1 } from 'iconsax-react';
-
 
 // project-imports
+import RoleGuard from '../../utils/role-guard/RoleGuard';
 import useAuth from '../../hooks/useAuth';
 import BookModal from './BookModal';
 import BookDetailModal from './BookDetailModal';
@@ -36,7 +35,7 @@ import { addFavoriteBook, removeFavoriteBook } from '../../api/books';
 
 // assets
 import defaultCoverBook2 from '../../assets/images/book-covers/book-cover-2.png';
-import { Book, Barcode, LanguageCircle } from 'iconsax-react';
+import { Book, Barcode, LanguageCircle, Star1 } from 'iconsax-react';
 
 const mediaSX = {
   width: 120,
@@ -59,6 +58,18 @@ export default function BookCard({ book, userFavorites }) {
   const [selectedBookLoan, setSelectedBookLoan] = useState(null);
 
   const [openAlert, setOpenAlert] = useState(false);
+
+  // Función para renderizar valores con fallback consistente
+  const renderValue = (value) => {
+    if (!value || value === '' || value === 'null' || value === 'undefined') {
+      return (
+        <Typography component="span" color="text.disabled" fontStyle="italic">
+          Sin información
+        </Typography>
+      );
+    }
+    return value;
+  };
 
   const handleAlertClose = () => {
     setOpenAlert(!openAlert);
@@ -83,6 +94,7 @@ export default function BookCard({ book, userFavorites }) {
     setSelectedBook(book);
     setBookModal(true);
   };
+
   useEffect(() => {
     setIsFavorite(userFavorites.some(fav => fav.registro === book.registro));
   }, [book, userFavorites]);
@@ -99,6 +111,7 @@ export default function BookCard({ book, userFavorites }) {
       console.error("Error toggling favorite:", err);
     }
   };
+
   return (
     <>
       <MainCard sx={{ height: 1, '& .MuiCardContent-root': { height: 1, display: 'flex', flexDirection: 'column' } }}>
@@ -113,7 +126,7 @@ export default function BookCard({ book, userFavorites }) {
                       <IconButton
                         edge="end"
                         aria-label="favorito"
-                        color={isFavorite ? "warning" : "default"}
+                        color="warning"
                         onClick={() => toggleFavorite(book.registro)}
                       >
                         <Star1 variant={isFavorite ? "Bold" : "Outline"} size={24} />
@@ -140,8 +153,8 @@ export default function BookCard({ book, userFavorites }) {
                 </ListItemAvatar>
                 <ListItemText
                   sx={{ pr: 6 }} 
-                  primary={book.titulo ? <Typography variant="subtitle1">{book.titulo}</Typography> : <Typography variant="subtitle1" color="error">SIN DATO</Typography>}
-                  secondary={book.autor ? <Typography color="text.secondary">{book.autor}</Typography> : <Typography color="error">SIN DATO</Typography>}
+                  primary={<Typography variant="subtitle1">{renderValue(book.titulo)}</Typography>}
+                  secondary={<Typography color="text.secondary">{renderValue(book.autor)}</Typography>}
                 />
               </ListItem>
             </List>
@@ -191,43 +204,71 @@ export default function BookCard({ book, userFavorites }) {
                     <ListItemIcon>
                       <Barcode size={18} />
                     </ListItemIcon>
-                    <ListItemText primary={<Typography color="text.secondary">Registro:{' '}{book.registro ? (book.registro) : (<Typography component="span" color="error">SIN DATO</Typography>)}</Typography>}/>
+                    <ListItemText 
+                      primary={
+                        <Typography color="text.secondary">
+                          Registro: {renderValue(book.registro)}
+                        </Typography>
+                      }
+                    />
                   </ListItem>
                   <ListItem alignItems="flex-start">
                     <ListItemIcon>
                       <Barcode size={18}/>
                     </ListItemIcon>
-                    <ListItemText primary={<Typography color="text.secondary">Código Dewey:{' '}{book.codigo_dewey ? (book.codigo_dewey) : (<Typography component="span" color="error">SIN DATO</Typography>)}</Typography>}/>
+                    <ListItemText 
+                      primary={
+                        <Typography color="text.secondary">
+                          Código Dewey: {renderValue(book.codigo_dewey)}
+                        </Typography>
+                      }
+                    />
                   </ListItem>
                   <ListItem alignItems="flex-start">
                     <ListItemIcon>
                       <Book size={18} />
                     </ListItemIcon>
-                    <ListItemText primary={<Typography color="text.secondary">Editorial:{' '}{book.editorial ? (book.editorial) : (<Typography component="span" color="error">SIN DATO</Typography>)}</Typography>}/>
-                    {/* <ListItemText primary={book.editorial ? <Typography color="text.secondary">{book.editorial}</Typography> : <Typography color="error">SIN DATO</Typography>} /> */}
+                    <ListItemText 
+                      primary={
+                        <Typography color="text.secondary">
+                          Editorial: {renderValue(book.editorial)}
+                        </Typography>
+                      }
+                    />
                   </ListItem>
                   <ListItem alignItems="flex-start">
                     <ListItemIcon>
                       <Book size={18} />
                     </ListItemIcon>
-                    <ListItemText primary={<Typography color="text.secondary">Tema:{' '}{book.tema ? (book.tema) : (<Typography component="span" color="error">SIN DATO</Typography>)}</Typography>}/>
-                    {/* <ListItemText primary={book.tema ? <Typography color="text.secondary">{book.tema}</Typography> : <Typography color="error">SIN DATO</Typography>} /> */}
-                  
+                    <ListItemText 
+                      primary={
+                        <Typography color="text.secondary">
+                          Tema: {renderValue(book.tema)}
+                        </Typography>
+                      }
+                    />
                   </ListItem>
                   <ListItem alignItems="flex-start">
                     <ListItemIcon>
                       <LanguageCircle size={18} />
                     </ListItemIcon>
-                    <ListItemText primary={<Typography color="text.secondary">Idioma:{' '}{book.idioma ? (book.idioma) : (<Typography component="span" color="error">SIN DATO</Typography>)}</Typography>}/>
-                    {/* <ListItemText primary={book.idioma ? <Typography color="text.secondary">{book.idioma}</Typography> : <Typography color="error">SIN DATO</Typography>} /> */}
+                    <ListItemText 
+                      primary={
+                        <Typography color="text.secondary">
+                          Idioma: {renderValue(book.idioma)}
+                        </Typography>
+                      }
+                    />
                   </ListItem>
                 </List>
                 <Grid>
                   <Box>
                     <Box sx={{ display: 'flex', flexWrap: 'wrap', listStyle: 'none', p: 1, m: 0 }} component="ul">
                       <ListItem disablePadding sx={{ width: 'auto', pr: 0.75, pb: 0.75 }}>
-                        {book.disponibilidad ? <Chip label="Disponible" variant="combined" color="success" size="small" />
-                          : <Chip variant="light" color="error" size="small" label="No Disponible" />
+                        {book.disponibilidad ? 
+                          <Chip label="Disponible" variant="combined" color="success" size="small" />
+                          : 
+                          <Chip variant="light" color="error" size="small" label="No Disponible" />
                         }
                       </ListItem>
                     </Box>
@@ -247,11 +288,11 @@ export default function BookCard({ book, userFavorites }) {
           sx={{ mt: 'auto', mb: 0, pt: 2.25 }}
         >
           <Typography variant="caption" color="text.secondary">
-            Tipo de material: {book.tipo_material}
+            Tipo de material: {renderValue(book.tipo_material)}
           </Typography>
           
-          {[1, 2, 3].includes(user?.categoria) && (
-            book.disponibilidad ? (
+          <RoleGuard roles={[1, 2, 3]} userRole={user?.categoria}>
+            {book.disponibilidad ? (
               <Button variant="outlined" size="small" onClick={editBookLoan}>
                 Reservar
               </Button>
@@ -259,8 +300,17 @@ export default function BookCard({ book, userFavorites }) {
               <Button color="error" variant="outlined" size="small" disabled>
                 No Disponible
               </Button>
-            )
-          )}
+            )}
+          </RoleGuard>
+
+          <RoleGuard roles={[4]} userRole={user?.categoria}>
+            <Button variant="outlined" size="small" onClick={() => {
+                  setSelectedBook(book); 
+                  setDetailModal(true);
+                }}>
+              Ver detalle
+            </Button>
+          </RoleGuard>
         </Stack>
       </MainCard >
 

@@ -20,12 +20,23 @@ axiosServices.interceptors.request.use(
 axiosServices.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response.status === 401 && !window.location.href.includes('/login')) {
-      window.location.pathname = '/maintenance/500';
+    const status = error.response?.status;
+
+    if (status === 401) {
+      localStorage.removeItem('serviceToken');
+      window.location.pathname = '/unauthorized';
+      return;
     }
-    return Promise.reject((error.response && error.response.data) || 'Wrong Services');
+
+    if (status >= 500) {
+      window.location.pathname = '/maintenance/500';
+      return;
+    }
+
+    return Promise.reject(error.response?.data || 'Wrong Services');
   }
 );
+
 
 export default axiosServices;
 
