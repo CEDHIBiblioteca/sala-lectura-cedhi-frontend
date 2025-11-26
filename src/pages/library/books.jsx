@@ -100,9 +100,11 @@ export default function Books() {
     if (lists && lists.length > 0) {
       const newData = lists.filter((value) => {
         if (globalFilter) {
-          return (value.titulo?.toLowerCase().includes(globalFilter.toLowerCase()) ||
-            value.autor?.toLowerCase().includes(globalFilter.toLowerCase()) ||
-            value.tema?.toLowerCase().includes(globalFilter.toLowerCase())
+          const filter = globalFilter.toLowerCase();
+          return (value.titulo?.toLowerCase().includes(filter) ||
+            value.autor?.toLowerCase().includes(filter) ||
+            value.tema?.toLowerCase().includes(filter) || 
+            value.tabla_contenido?.toLowerCase().includes(filter)
           );
         } else {
           return value;

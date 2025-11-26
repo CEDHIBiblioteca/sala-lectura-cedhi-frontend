@@ -1,10 +1,12 @@
 // material-ui
 import { useTheme } from '@mui/material/styles';
+
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { lighten } from '@mui/material/styles';
 
 // project import
 import MainCard from '../../components/MainCard';
@@ -53,20 +55,31 @@ export default function WelcomeBanner() {
               Haz clic aquí para iniciar tu búsqueda.
             </Typography>
             <Box>
-              <Button
-                variant="outlined"
-                color="secondary"
-                onClick={irABusqueda}
-                sx={{
-                  color: 'background.paper',
-                  borderColor: theme.palette.background.paper,
-                  zIndex: 2,
-                  '&:hover': { color: 'background.paper', borderColor: theme.palette.background.paper, bgcolor: 'primary.main' }
-                }}
-                target="_blank"
-              >
-                Buscar Libros
-              </Button>
+    <Button
+      variant="contained"
+      onClick={irABusqueda}
+      sx={{
+        color: 'white',
+        bgcolor: lighten(theme.palette.primary.main, 0.5),
+        border: '2px solid rgba(255,255,255,0.6)',
+        px: 3,
+        py: 1.2,
+        borderRadius: 3,
+        fontWeight: 700,
+        textTransform: 'none',
+        textShadow: '1px 1px 2px rgba(0,0,0,0.4)',
+        boxShadow: '0px 6px 20px rgba(0,0,0,0.3)',
+        transition: 'all 0.3s ease',
+        '&:hover': {
+          bgcolor: lighten(theme.palette.primary.main, 0.45),
+          boxShadow: '0px 8px 25px rgba(0,0,0,0.35)',
+          transform: 'translateY(-3px)',
+        },
+        zIndex: 2
+      }}
+    >
+      Buscar Libros
+    </Button>
             </Box>
           </Stack>
         </Grid>

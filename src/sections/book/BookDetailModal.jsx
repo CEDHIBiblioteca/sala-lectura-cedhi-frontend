@@ -29,15 +29,15 @@ export default function BookDetailModal({ open, onClose, book }) {
   const fields = [
     { icon: <Hashtag size={20} variant="Bulk" />, label: "N° Edición", value: book.num_edicion },
     { icon: <Barcode size={20} variant="Bulk" />, label: "ISBN", value: book.isbn },
-    { icon: <Book size={20} variant="Bulk" />, label: "Notación Interna", value: book.notacion_interna },
-    { icon: <Barcode size={20} variant="Bulk" />, label: "Código", value: book.codigo },
-    { icon: <SliderHorizontal1 size={20} variant="Bulk" />, label: "N° Páginas", value: book.num_paginas },
-    { icon: <Calendar size={20} variant="Bulk" />, label: "Año", value: book.ano },
-    { icon: <Location size={20} variant="Bulk" />, label: "Ciudad", value: book.ciudad },
-    { icon: <BookSquare size={20} variant="Bulk" />, label: "Ubicación en estantería", value: book.ubicacion_estanteria },
-    { icon: <Buildings size={20} variant="Bulk" />, label: "Editorial", value: book.editorial },
     { icon: <Book size={20} variant="Bulk" />, label: "Tema", value: book.tema },
-    { icon: <LanguageCircle size={20} variant="Bulk" />, label: "Idioma", value: book.idioma }
+    { icon: <Buildings size={20} variant="Bulk" />, label: "Editorial", value: book.editorial },
+    { icon: <LanguageCircle size={20} variant="Bulk" />, label: "Idioma", value: book.idioma },
+    { icon: <Book size={20} variant="Bulk" />, label: "Notación Interna", value: book.notacion_interna },
+    { icon: <Calendar size={20} variant="Bulk" />, label: "Año", value: book.ano },
+    { icon: <SliderHorizontal1 size={20} variant="Bulk" />, label: "N° Páginas", value: book.num_paginas },
+    { icon: <Barcode size={20} variant="Bulk" />, label: "Código", value: book.codigo },
+    { icon: <Location size={20} variant="Bulk" />, label: "Ciudad", value: book.ciudad },
+    { icon: <BookSquare size={20} variant="Bulk" />, label: "Ubicación en estantería", value: book.ubicacion_estanteria }
   ];
 
   return (
